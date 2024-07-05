@@ -58,7 +58,6 @@ const outItem = async (req, res) => {
     const { id } = req.params;
     const { quantity } = req.body;
     const { userName } = req.user;
-    console.log(quantity);
     if (!quantity)
       return res.status(400).json({ msg: "fill out quantity!", secess: false });
     const matchItem = await Items.findById(id);
