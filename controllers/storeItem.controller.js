@@ -20,4 +20,13 @@ const createStoreItem = async (req, res) => {
   }
 };
 
-export { createStoreItem };
+const getAllStoreItems = async (req, res) => {
+  try {
+    const storeItems = await storeItemModel.find({});
+    res.status(200).json({ sucess: true, data: storeItems });
+  } catch (error) {
+    res.status(500).json({ error: error.message, sucess: false });
+  }
+};
+
+export { createStoreItem, getAllStoreItems };
