@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema(
   {
+    author: {
+      type: String,
+      required: [true, "author must provide "],
+      trim: true,
+    },
     parentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "storeItem",

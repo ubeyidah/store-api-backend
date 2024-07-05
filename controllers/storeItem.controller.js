@@ -1,4 +1,4 @@
-import storeItemModel from "../models/storeItem.model.js";
+import storeItem from "../models/storeItem.model.js";
 
 const createStoreItem = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ const createStoreItem = async (req, res) => {
       return res
         .status(400)
         .json({ msg: "fill out the fileds.", sucess: false });
-    const newStoreItem = await storeItemModel({
+    const newStoreItem = await storeItem({
       author: userName,
       name,
       catagory,
@@ -23,7 +23,7 @@ const createStoreItem = async (req, res) => {
 
 const getAllStoreItems = async (req, res) => {
   try {
-    const storeItems = await storeItemModel.find({});
+    const storeItems = await storeItem.find({});
     res.status(200).json({ sucess: true, data: storeItems });
   } catch (error) {
     res.status(500).json({ error: error.message, sucess: false });
@@ -39,10 +39,10 @@ const updateStoreItem = async (req, res) => {
         msg: "fill out missing name or catagory or measure.",
         sucess: false,
       });
-    const storeItem = await storeItemModel.findById(id);
+    const storeItem = await storeItem.findById(id);
     if (!storeItem)
       return res.status(404).json({ msg: "item not found", sucess: false });
-    await storeItemModel.findOneAndUpdate(
+    await storeItem.findOneAndUpdate(
       { _id: id },
       { name, catagory, measure, description }
     );
@@ -55,7 +55,7 @@ const updateStoreItem = async (req, res) => {
 const deleteStoreItem = async (req, res) => {
   try {
     const { id } = req.params;
-    await storeItemModel.findOneAndDelete({ _id: id });
+    await storeItem.findOneAndDelete({ _id: id });
     res.status(200).json({ msg: "successfully deleted.", sucess: true });
   } catch (error) {
     res.status(500).json({ error: error.message, sucess: false });
