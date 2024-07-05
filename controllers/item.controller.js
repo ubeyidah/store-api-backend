@@ -32,4 +32,24 @@ const deleteItem = async (req, res) => {
   }
 };
 
-export { addItem, deleteItem };
+const updateItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { inStock, description, expireOn } = req.body;
+    if (!inStock || !expireOn)
+      return res
+        .status(400)
+        .json({ msg: "fill out the filed!", sucess: false });
+    const updatedItem = await Items.findOneAndUpdate(
+      { _id: id },
+      { inStock, description, expireOn }
+    );
+    if (!updatedItem)
+      return res.status(404).json({ msg: "item not found", sucess: false });
+    res.status(200).json({ msg: "sucessfully updated", sucess: true });
+  } catch (error) {
+    res.status(500).json({ msg: error.message, secess: false });
+  }
+};
+
+export { addItem, deleteItem, updateItem };
