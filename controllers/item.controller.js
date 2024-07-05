@@ -1,4 +1,5 @@
 import Items from "../models/item.model.js";
+import OutItems from "../models/outItem.model.js";
 
 const addItem = async (req, res) => {
   try {
@@ -52,4 +53,26 @@ const updateItem = async (req, res) => {
   }
 };
 
-export { addItem, deleteItem, updateItem };
+const outItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const { userName } = req.user;
+    console.log(quantity);
+    if (!quantity)
+      return res.status(400).json({ msg: "fill out quantity!", secess: false });
+    const matchItem = await Items.findById(id);
+    if (!matchItem)
+      return res.status(404).json({ msg: "item not found!", secess: false });
+    const newOutItem = await OutItems({
+      author: userName,
+      itemId: matchItem._id,
+      quantity,
+    }).save();
+    res.status(200).json({ sucess: true, data: newOutItem });
+  } catch (error) {
+    res.status(500).json({ msg: error.message, secess: false });
+  }
+};
+
+export { addItem, deleteItem, updateItem, outItem };
