@@ -1,3 +1,4 @@
+import Items from "../models/item.model.js";
 import storeItem from "../models/storeItem.model.js";
 
 const createStoreItem = async (req, res) => {
@@ -24,7 +25,8 @@ const createStoreItem = async (req, res) => {
 const getAllStoreItems = async (req, res) => {
   try {
     const storeItems = await storeItem.find({});
-    res.status(200).json({ sucess: true, data: storeItems });
+    const matchItems = await Items.find({ parentId: storeItems[1]._id });
+    res.status(200).json({ sucess: true, data: storeItems, matchItems });
   } catch (error) {
     res.status(500).json({ error: error.message, sucess: false });
   }

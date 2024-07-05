@@ -12,8 +12,15 @@ const protectRoute = async (req, res, next) => {
     const user = await Users.findById(decoded.id);
     if (!user)
       return res.status(404).json({ msg: "user not found!", sucess: false });
-    req.user = user;
-    next();
+    if (user.isVerified) {
+      req.user = user;
+      next();
+    } else {
+      return res.status(401).json({
+        msg: "You are not verified to access this page. please contact admin to verifiey.",
+        sucess: false,
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: "Something went wrong.", sucess: false });
   }

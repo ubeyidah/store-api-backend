@@ -12,16 +12,21 @@ const adminRoute = async (req, res, next) => {
     const user = await Users.findById(decoded.id);
     if (!user)
       return res.status(404).json({ msg: "user not found!", sucess: false });
-    if (user.isAdmin) {
+    if (user.isAdmin && user.isVerified) {
       req.user = user;
       next();
+    } else if (!user.isAdmin) {
+      return res.status(401).json({
+        msg: "You are not verified to access this page. please contact admin to verifiey.",
+        sucess: false,
+      });
     } else {
       return res
         .status(401)
         .json({ msg: "You are not admin user.", sucess: false });
     }
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong.", sucess: false });
+    res.status(500).json({ error: error.message, sucess: false });
   }
 };
 

@@ -31,6 +31,7 @@ const signup = async (req, res) => {
         userName: newUser.userName,
         email: newUser.email,
         isAdmin: newUser.isAdmin,
+        isVerified: newUser.isVerified,
       },
     });
   } catch (error) {
@@ -58,6 +59,7 @@ const login = async (req, res) => {
         userName: user.userName,
         email: user.email,
         isAdmin: user.isAdmin,
+        isVerified: user.isVerified,
       },
     });
   } catch (error) {
