@@ -2,7 +2,7 @@ import storeItemModel from "../models/storeItem.model.js";
 
 const createStoreItem = async (req, res) => {
   try {
-    const { name, catagory, measure } = req.body;
+    const { name, catagory, measure, description } = req.body;
     const { userName } = req.user;
     if (!name || !catagory || !measure)
       return res
@@ -12,6 +12,7 @@ const createStoreItem = async (req, res) => {
       author: userName,
       name,
       catagory,
+      description,
       measure,
     }).save();
     res.status(201).json({ sucess: true, data: newStoreItem });
@@ -32,7 +33,7 @@ const getAllStoreItems = async (req, res) => {
 const updateStoreItem = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, catagory, measure } = req.body;
+    const { name, catagory, measure, description } = req.body;
     if (!name || !catagory || !measure)
       return res.status(400).json({
         msg: "fill out missing name or catagory or measure.",
@@ -43,7 +44,7 @@ const updateStoreItem = async (req, res) => {
       return res.status(404).json({ msg: "item not found", sucess: false });
     await storeItemModel.findOneAndUpdate(
       { _id: id },
-      { name, catagory, measure }
+      { name, catagory, measure, description }
     );
     res.status(200).json({ msg: "successfully updated.", sucess: true });
   } catch (error) {

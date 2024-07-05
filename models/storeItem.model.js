@@ -19,6 +19,10 @@ const storeItemSchema = new Schema(
       trim: true,
       enum: ["medication", "laboratory", "pharmacy", "electronic", "others"],
     },
+    description: {
+      type: String,
+      trim: true,
+    },
     measure: {
       type: String,
       trim: true,
