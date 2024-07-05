@@ -51,4 +51,14 @@ const updateStoreItem = async (req, res) => {
   }
 };
 
-export { createStoreItem, getAllStoreItems, updateStoreItem };
+const deleteStoreItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await storeItemModel.findOneAndDelete({ _id: id });
+    res.status(200).json({ msg: "successfully deleted.", sucess: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message, sucess: false });
+  }
+};
+
+export { createStoreItem, getAllStoreItems, updateStoreItem, deleteStoreItem };
