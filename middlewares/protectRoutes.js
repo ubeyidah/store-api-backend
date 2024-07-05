@@ -18,3 +18,5 @@ const protectRoute = async (req, res, next) => {
     res.status(500).json({ error: "Something went wrong.", sucess: false });
   }
 };
+
+export default protectRoute;
